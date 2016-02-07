@@ -1,0 +1,2 @@
+module NotecardHelper
+end
