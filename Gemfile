@@ -32,6 +32,7 @@ gem 'redis', '~> 3.0'
 gem 'devise', git: 'git@github.com:plataformatec/devise.git'
 gem 'bower-rails'
 gem 'react-rails', '~> 1.6.0'
+gem 'awesome_nested_set'
 
 
 group :development, :test do

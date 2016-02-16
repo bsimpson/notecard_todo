@@ -4,7 +4,6 @@ Rails.application.routes.draw do
 
   # Serve websocket cable requests in-process
   # mount ActionCable.server => '/cable'
-  get 'notecards/api' => 'notecard#api'
-  post 'notecards' => 'notecard#create'
+  resources :notecard
   root to: 'notecard#index'
 end

@@ -1,26 +1,19 @@
 class NotecardController < ApplicationController
-  before_filter :set_comments
 
   def index
-  end
-
-  def api
-    render json: @comments
+    respond_to do |format|
+      format.html { }
+      format.js { render json: notecards }
+    end
   end
 
   def create
-    sleep(2)
-    #@comments.push({ author: params[:author], text: params[:text] })
-    render json: @comments, status: 500
   end
 
   private
 
 
-  def set_comments
-    @comments = [
-      {author: "Pete Hunt", text: "This is one comment"},
-      {author: "Jordan Walke", text: "This is *another* comment"}
-    ]
+  def notecards
+    @notecards ||= current_user.notecards.limit(50).to_a
   end
 end
