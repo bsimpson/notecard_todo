@@ -9,8 +9,9 @@ class NotecardController < ApplicationController
   end
 
   def create
-    @comments.push({ author: params[:author], text: params[:text] })
-    render json: @comments
+    sleep(2)
+    #@comments.push({ author: params[:author], text: params[:text] })
+    render json: @comments, status: 500
   end
 
   private
