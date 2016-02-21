@@ -10,10 +10,19 @@ class NotecardController < ApplicationController
   def create
   end
 
+  def update
+    notecard = current_user.notecards.find(params[:id])
+    notecard.update_attributes(notecard_params_for_update)
+    render json: Array(notecard)
+  end
+
   private
 
-
   def notecards
-    @notecards ||= current_user.notecards.limit(50).to_a
+    @notecards ||= Array(current_user.notecards.root)
+  end
+
+  def notecard_params_for_update
+    params.require(:notecard).permit(:title, :body)
   end
 end
