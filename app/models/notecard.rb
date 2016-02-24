@@ -4,11 +4,7 @@ class Notecard < ApplicationRecord
   acts_as_nested_set
   belongs_to :user
 
-  before_save :build_notecards_for_list_items
-
-  def body
-    read_attribute("body") || ""
-  end
+  after_save :build_notecards_for_list_items
 
   def htmlified_body
     html = Nokogiri::HTML Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(body)
@@ -20,7 +16,7 @@ class Notecard < ApplicationRecord
     end
     # Nogogiri is sad that we don't have a doctype and all that jazz so it gives it to us for free
     # Except that I don't want it
-    html.at("//body").inner_html
+    html.at("//body").inner_html rescue ""
   end
 
   private
@@ -30,5 +26,6 @@ class Notecard < ApplicationRecord
       notecard = self.children.find_or_create_by!(title: li.text)
       notecard.move_to_child_of(self)
     end
+    true
   end
 end
