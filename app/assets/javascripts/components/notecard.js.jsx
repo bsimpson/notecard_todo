@@ -17,7 +17,7 @@ var NotecardList = React.createClass({
   },
   onNotecardSubmit: function(notecard) {
     $.ajax({
-      url: '/notecard/' + notecard.id,
+      url: '/notecards/' + notecard.id,
       dataType: 'json',
       type: 'PUT',
       data: { notecard: notecard },
@@ -30,15 +30,16 @@ var NotecardList = React.createClass({
     })
   },
   render: function() {
-    var notecardNodes = this.state.data.map(function(notecard) {
-      return (
+    var notecard = this.state.data;
+    var notecardNodes = 
+      (
         <Notecard title={notecard.title}
                   body={notecard.body}
+                  htmlified_body={notecard.htmlified_body}
                   id={notecard.id}
                   key={notecard.id}
                   onNotecardSubmit={this.onNotecardSubmit} />
       )
-    }.bind(this));
 
     return (
       <div className="notecardList">
@@ -79,6 +80,9 @@ var Notecard = React.createClass({
       </div>
     )
   },
+  htmlified_body: function() {
+    return { __html: this.props.htmlified_body }
+  },
   body: function() {
     if (this.state.edit) {
       return(
@@ -99,9 +103,7 @@ var Notecard = React.createClass({
     } else {
       return (
         <section className="body col-sm-12">
-          <div className="row-fluid">
-            {this.props.body}
-          </div>
+          <div className="row-fluid" dangerouslySetInnerHTML={this.htmlified_body()}></div>
           <div clas="row">
             <div className="col-sm-11"></div>
             <input type="submit" className="btn btn-standard col-sm-1" onClick={this.handleEdit} value="Edit" />
@@ -114,7 +116,7 @@ var Notecard = React.createClass({
 
 $(function() {
   ReactDOM.render(
-    <NotecardList url="/notecard" />,
+    <NotecardList url="/notecards" />,
     document.getElementById('content')
   );
 });
