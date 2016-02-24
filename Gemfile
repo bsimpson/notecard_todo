@@ -34,6 +34,7 @@ gem 'bower-rails'
 gem 'react-rails', '~> 1.6.0'
 gem 'awesome_nested_set'
 gem 'redcarpet'
+gem 'nokogiri'
 
 
 group :development, :test do
